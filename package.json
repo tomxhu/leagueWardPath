@@ -1,0 +1,22 @@
+{
+  "name": "leagueWardPath",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wards.js",
+  "dependencies": {
+    "leagueapi": "^0.4.8",
+    "q": "^1.2.0",
+    "underscore": "^1.8.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomxhu/leagueWardPath.git"
+  },
+  "author": "Tommy Hu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomxhu/leagueWardPath/issues"
+  },
+  "homepage": "https://github.com/tomxhu/leagueWardPath"
+}
