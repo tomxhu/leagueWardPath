@@ -17,6 +17,9 @@ var PosSchema = new Schema({
 	},
 	y: {
 		type: Number
+	},
+	timestamp: {
+		type: Number
 	}
 });
 
@@ -58,8 +61,8 @@ function getFirstMatchID(summonerID){
 	var options = {rankedQueues: ['RANKED_SOLO_5x5']};
 	LolApi.getMatchHistory(summonerID, options, 'na', function(err, data){
 		var result = 0;
-		if (data && data.matches[9]){
-			result = data.matches[9].matchId
+		if (data && data.matches[5]){
+			result = data.matches[5].matchId
 		}
 		deferred.resolve(result);
 	});
@@ -93,6 +96,7 @@ function findPosOfEvents(match) {
 		var frames = match.timeline.frames
 	frames.forEach(function(frame){
 		var events = frame.events;
+		var timestamp = frame.timestamp;
 		var participantFrames = frame.participantFrames;
 		if (events){
 			events.forEach(function(event){
@@ -102,7 +106,8 @@ function findPosOfEvents(match) {
 					if (pos) {
 						var posEntry = new PositionModel({
 							x: pos.x,
-							y: pos.y
+							y: pos.y,
+							timestamp: timestamp
 						});
 
 						posEntry.save(function(err){
@@ -170,7 +175,7 @@ function takeSummonerIDAndFindPosAndReturnListOfNext(summonerID) {
 
 // run(myId);
 
-takeSummonerIDAndFindPosAndReturnListOfNext(24800635).then(function(summonerIDs){
+takeSummonerIDAndFindPosAndReturnListOfNext(45411179).then(function(summonerIDs){
 
 			console.log(summonerIDs);
 			return
