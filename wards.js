@@ -33,28 +33,8 @@ LolApi.init('f0a8b929-dbf5-402f-b553-89bd0c34b649', 'na');
 
 var matches;
 
-function treeSearchMatches(seedID, levelsDeep){
-	var deffered = Q.defer();
-	var promises = [];
-	if (levelsDeep > 0){
-		getFirstMatchID(seedID).then(function(matchID){
-			console.log(matchID);
-			LolApi.getMatch(matchID, true, 'na', function(err, data){
-				findPosOfEvents(data);
-				var nextSumonners = _.reject(getListOfSummonerIDs(data), function(player){
-					return player.id == seedID;
-				});
-				nextSumonners.forEach(function(summoner){
-					promises.push(treeSearchMatches(summoner.id, levelsDeep - 1));
-				});
 
-				deferred.resolve(promises);
-			});
-		})
-	}
-	return deferred.promise;
-}
-
+// returns the first match that a specific summoner has participated in
 function getFirstMatchID(summonerID){
 	console.log(summonerID);
 	var deferred = Q.defer();
@@ -69,6 +49,7 @@ function getFirstMatchID(summonerID){
 	return deferred.promise;
 }
 
+// returns a list of the summoners that participated in the match
 function getListOfSummonerIDs(match) {
 	var deferred = Q.defer();
 	console.log("getListOfSummonerIDs")
@@ -87,8 +68,7 @@ function getListOfSummonerIDs(match) {
 	return deferred.promise;
 }
 
-// treeSearchMatches(myId, 2);
-
+// find the position events for the match data that is returned
 function findPosOfEvents(match) {
 	var deferred = Q.defer();
 	console.log('running find pos')
@@ -130,9 +110,7 @@ function findPosOfEvents(match) {
 	return deferred.promise;
 }
 
-// findPosOfEvents(frames)
-// getPositionFromMatch(175090359
-
+// take a summonerid, find a match, extract positions and then return a list of the summoners in the game
 function takeSummonerIDAndFindPosAndReturnListOfNext(summonerID) {
 	var deferred = Q.defer()
 	
@@ -157,23 +135,7 @@ function takeSummonerIDAndFindPosAndReturnListOfNext(summonerID) {
 	return deferred.promise;
 }
 
-
-// function run (id) {
-// 	var temp = id
-// 	var i = 3;
-// 	while(i > 0){
-// 		var list;
-// 		console.log(temp);
-// 		takeSummonerIDAndFindPosAndReturnListOfNext(temp).then(function(summonerIDs){
-// 			list = summonerIDs
-// 			console.log(list);
-// 			temp = list[1].id;
-// 		});
-		
-// 	}
-// }
-
-// run(myId);
+// running it
 
 takeSummonerIDAndFindPosAndReturnListOfNext(45411179).then(function(summonerIDs){
 
